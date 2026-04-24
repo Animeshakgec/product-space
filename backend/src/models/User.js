@@ -29,20 +29,17 @@ function initUser(sequelize) {
       },
       password: {
         type: DataTypes.VIRTUAL,
-        get() {
-          return this.getDataValue("password");   // ← ADD THIS
-        },
         set(value) {
           this.setDataValue("password", value);
         }
-      },
+      }
     },
     {
       sequelize,
       modelName: "User",
       tableName: "users",
       defaultScope: {
-        attributes: { exclude: ["passwordHash"] }
+        attributes: { exclude: ["password"] }
       },
       scopes: {
         withPasswordHash: {
@@ -81,4 +78,3 @@ function initUser(sequelize) {
 }
 
 module.exports = { User, initUser };
-
