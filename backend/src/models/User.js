@@ -3,7 +3,7 @@ const { DataTypes, Model } = require("sequelize");
 
 const BCRYPT_ROUNDS = 10;
 
-class User extends Model {}
+class User extends Model { }
 
 function initUser(sequelize) {
   User.init(
@@ -29,10 +29,13 @@ function initUser(sequelize) {
       },
       password: {
         type: DataTypes.VIRTUAL,
+        get() {
+          return this.getDataValue("password");   // ← ADD THIS
+        },
         set(value) {
           this.setDataValue("password", value);
         }
-      }
+      },
     },
     {
       sequelize,
