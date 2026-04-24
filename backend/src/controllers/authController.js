@@ -22,7 +22,9 @@ const signup = asyncHandler(async (req, res) => {
     throw new AppError("Email already in use", 409);
   }
 
-  const user = await User.create({ name, email, password });
+  const passwordHash = await bcrypt.hash(String(password), 10);
+
+  const user = await User.create({ name, email, passwordHash });
   const token = signToken(user.id);
 
   res.status(201).json({ user, token });
